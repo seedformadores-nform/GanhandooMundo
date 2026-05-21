@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Interativo - Autoavaliação Resumo Expandido GMP</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fdfbf7;
+            color: #334155;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-wrapper {
+                height: 280px;
+            }
+        }
+
+        .tab-btn.active {
+            border-bottom: 4px solid #0f766e;
+            color: #0f766e;
+            font-weight: 700;
+            background-color: #f0fdfa;
+        }
+
+        .tab-btn {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .radio-custom:checked + label {
+            background-color: #0f766e;
+            color: white;
+            border-color: #0f766e;
+        }
+
+        .radio-custom-partial:checked + label {
+            background-color: #b45309;
+            color: white;
+            border-color: #b45309;
+        }
+
+        .radio-custom-no:checked + label {
+            background-color: #b91c1c;
+            color: white;
+            border-color: #b91c1c;
+        }
+
+        @media print {
+            nav,
+            button,
+            canvas {
+                display: none !important;
+            }
+
+            .view-section {
+                display: block !important;
+            }
+
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+<header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200">
+
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+
+        <div>
+            <h1 class="text-2xl font-bold text-teal-800">
+                🎓 Programa Ganhando o Mundo Professor
+            </h1>
+
+            <p class="text-sm text-gray-500">
+                Instrumento Interativo de Autoavaliação: Do Relato ao Resumo Expandido
+            </p>
+        </div>
+
+        <div class="flex flex-col items-end">
+            <span class="text-sm font-semibold mb-1">Progresso Geral</span>
+
+            <div class="w-48 bg-gray-200 rounded-full h-3">
+                <div id="global-progress-bar"
+                     class="bg-teal-600 h-3 rounded-full transition-all duration-500"
+                     style="width:0%">
+                </div>
+            </div>
+
+            <span id="global-progress-text"
+                  class="text-xs text-gray-500 mt-1">
+                0% Concluído
+            </span>
+        </div>
+
+    </div>
+
+    <nav class="max-w-6xl mx-auto px-4 mt-2 flex overflow-x-auto gap-2" id="nav-tabs">
+
+        <button onclick="app.navigate('dashboard')"
+                class="tab-btn active px-4 py-3 text-sm font-medium text-gray-600 rounded-t-lg whitespace-nowrap">
+            📊 Painel de Controle
+        </button>
+
+        <button onclick="app.navigate('bloco1')"
+                class="tab-btn px-4 py-3 text-sm font-medium text-gray-600 rounded-t-lg whitespace-nowrap">
+            📚 Bloco 1: Transposição
+        </button>
+
+        <button onclick="app.navigate('bloco2')"
+                class="tab-btn px-4 py-3 text-sm font-medium text-gray-600 rounded-t-lg whitespace-nowrap">
+            🏛 Bloco 2: Estrutura
+        </button>
+
+        <button onclick="app.navigate('bloco3')"
+                class="tab-btn px-4 py-3 text-sm font-medium text-gray-600 rounded-t-lg whitespace-nowrap">
+            ✍️ Bloco 3: Formatação
+        </button>
+
+    </nav>
+
+</header>
+
+<main class="flex-grow max-w-6xl mx-auto px-4 py-8 w-full">
+
+    <!-- DASHBOARD -->
+
+    <section id="view-dashboard" class="view-section block">
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8 mb-8">
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                👋 Olá, Professor(a) Intercambista!
+            </h2>
+
+            <p class="text-gray-600 leading-relaxed mb-4">
+                Este painel foi desenvolvido para ajudá-lo na jornada de transposição da sua prática pedagógica vivenciada no Canadá para a estrutura acadêmica de um <strong>Resumo Expandido</strong>.
+            </p>
+
+            <p class="text-gray-600 leading-relaxed">
+                Utilize as abas superiores para navegar pelos blocos de avaliação e analisar criticamente seu material antes da submissão ao mentor. Lembre-se de ao final, imprimir a sua autoavaliação e anexá-la junto ao seu Resumo Expandido na àrea de atividades. 
+            </p>
+
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
+                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">
+                    🎯 Nível de Prontidão do Resumo
+                </h3>
+
+                <div class="chart-wrapper">
+                    <canvas id="readinessChart"></canvas>
+                </div>
+
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+
+                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">
+                    🛠 Análise de Desempenho por Bloco
+                </h3>
+
+                <div class="chart-wrapper">
+                    <canvas id="radarChart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mt-8 text-center">
+            <button onclick="app.navigate('bloco1')"
+                    class="bg-teal-700 hover:bg-teal-800 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-colors text-lg">
+                Iniciar Autoavaliação ➜
+            </button>
+        </div>
+
+    </section>
+
+    <!-- BLOCO 1 -->
+
+    <section id="view-bloco1" class="view-section hidden">
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">
+                📚 Bloco 1: Transposição Pedagógica e Rigor Científico
+            </h2>
+
+            <p class="text-gray-600">
+                Nesta seção, avalie se o seu texto superou o tom meramente descritivo e alcançou profundidade teórica.
+            </p>
+
+        </div>
+
+        <div id="content-bloco1" class="space-y-6"></div>
+
+    </section>
+
+    <!-- BLOCO 2 -->
+
+    <section id="view-bloco2" class="view-section hidden">
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">
+                🏛 Bloco 2: Estrutura Acadêmica e Alinhamento Pedagógico
+            </h2>
+
+            <p class="text-gray-600">
+                Avalie a coerência interna do seu texto e se ele atende à estrutura padrão obrigatória estipulada pelo Template Oficial.
+            </p>
+
+        </div>
+
+        <div id="content-bloco2" class="space-y-6"></div>
+
+    </section>
+
+    <!-- BLOCO 3 -->
+
+    <section id="view-bloco3" class="view-section hidden">
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8 mb-6">
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">
+                ✍️ Bloco 3: Formatação, Normas ABNT e Uso de Evidências
+            </h2>
+
+            <p class="text-gray-600">
+                Verifique se a estética e os elementos de diagramação cumprem as exigências estipuladas.
+            </p>
+
+        </div>
+
+        <div id="content-bloco3" class="space-y-6 mb-8"></div>
+
+        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 text-center">
+
+            <h3 class="text-xl font-bold text-gray-800 mb-4">
+                ✅ Finalização da Autoavaliação
+            </h3>
+
+            <p class="text-gray-600 mb-6">
+                Após concluir sua análise crítica, clique abaixo para abrir a impressão do documento no seu computador.
+            </p>
+
+           <button id="printButton"
+        type="button"
+        class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-colors">
+    🖨 Imprimir / Salvar em PDF
+</button>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="bg-gray-800 text-gray-400 py-6 mt-auto">
+
+    <div class="max-w-6xl mx-auto px-4 text-center text-sm">
+
+        <p>
+            🌎 Programa Ganhando o Mundo Professor - SEED-PR
+        </p>
+
+        <p class="mt-1">
+            Ferramenta de apoio metodológico focada no desenvolvimento do professor-pesquisador.
+        </p>
+
+    </div>
+
+</footer>
+
+<script>
+
+const appData = {
+
+    bloco1: {
+        id: 'bloco1',
+        questions: [
+
+            {
+                id: 'b1_q1',
+                text: '1. Fundamentação Teórica em Camadas: Além de repetir os conceitos do projeto inicial, expandi a fundamentação trazendo pelo menos **dois autores** que dialogam, concordam ou se complementam?'
+            },
+
+            {
+                id: 'b1_q2',
+                text: '2. Conexão Teoria-Prática (Fichamento ativo): Justifiquei no texto as minhas escolhas metodológicas com base no que estudei no exterior? (Ex: Conectei a teoria X ao motivo de adaptar a atividade Y).'
+            },
+
+            {
+                id: 'b1_q3',
+                text: '3. Análise Crítica das Adaptações: Descrevi analiticamente o que precisou ser adaptado da realidade canadense para o contexto escolar paranaense?'
+            },
+
+            {
+                id: 'b1_q4',
+                text: '4. Vocabulário Científico: Utilizei conceitos e terminologias técnicas extraídas diretamente das formações e dos materiais de estudo recebidos no Canadá?'
+            }
+
+        ]
+    },
+
+    bloco2: {
+        id: 'bloco2',
+        questions: [
+
+            {
+                id: 'b2_q1',
+                text: '1. Título do Trabalho: É claro, conciso, reflete diretamente a intervenção executada e possui no máximo 3 linhas?'
+            },
+
+            {
+                id: 'b2_q2',
+                text: '2. Resumo (Abstract): Contém contextualização curta do tema, objetivo, método de pesquisa e principais resultados alcançados de forma resumida em parágrafo único (máx. 200 palavras)?'
+            },
+
+            {
+                id: 'b2_q3',
+                text: '3. Palavras-chave: Indiquei entre 3 e 5 termos representativos do trabalho, separados por ponto e com a primeira letra maiúscula?'
+            },
+
+            {
+                id: 'b2_q4',
+                text: '4. Alinhamento da Introdução: Apresentei de forma clara o tema, a situação-problema da escola e os objetivos (geral e específicos) da minha intervenção?'
+            },
+
+            {
+                id: 'b2_q5',
+                text: '5. Metodologia Científica: Expliquei como e em quanto tempo a ação ocorreu, descrevendo as etapas de diagnóstico, a aplicação das soluções e os instrumentos usados?'
+            },
+
+            {
+                id: 'b2_q6',
+                text: '6. Resultados e Discussão: Apresentei os dados e as evidências da aprendizagem do público-alvo focando na discussão do impacto das ações?'
+            },
+
+            {
+                id: 'b2_q7',
+                text: '7. Considerações Finais e Fechamento: Minhas considerações finais respondem diretamente aos objetivos propostos e apresentam desdobramentos futuros?'
+            }
+
+        ]
+    },
+
+    bloco3: {
+        id: 'bloco3',
+        questions: [
+
+            {
+                id: 'b3_q1',
+                text: '1. Limites de Páginas: Meu documento em formato .doc possui entre 4 e 6 páginas no total?'
+            },
+
+            {
+                id: 'b3_q2',
+                text: '2. Padrão de Formatação: O texto inteiro está formatado em fonte Arial, tamanho 12, espaçamento entre linhas 1,15 e justificado?'
+            },
+
+            {
+                id: 'b3_q3',
+                text: '3. Citações Curtas e Longas: Apliquei as regras de citação do template (ex: curtas entre aspas incorporadas ao texto com Autor, Ano, pág.)?'
+            },
+
+            {
+                id: 'b3_q4',
+                text: '4. Referências Bibliográficas: Todas as fontes citadas no texto constam nas Referências Finais conforme ABNT NBR 6023/2002?'
+            },
+
+            {
+                id: 'b3_q5',
+                text: '5. Amostragem por Evidência: Se inseri tabelas/imagens, certifiquei-me que não são ilustrativas, possuem título/fonte e são analisadas no texto?'
+            }
+
+        ]
+    }
+
+};
+
+const state = {
+    answers: {},
+    notes: {}
+};
+
+const chartInstances = {
+    readiness: null,
+    radar: null
+};
+
+const app = {
+
+    init() {
+        this.renderForms();
+        this.initCharts();
+        this.updateGlobalState();
+    },
+
+    navigate(viewId) {
+
+        document.querySelectorAll('.view-section').forEach(el => {
+            el.classList.add('hidden');
+            el.classList.remove('block');
+        });
+
+        const targetView = document.getElementById(`view-${viewId}`);
+
+        if (targetView) {
+            targetView.classList.remove('hidden');
+            targetView.classList.add('block');
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        const activeBtn = Array.from(document.querySelectorAll('.tab-btn'))
+            .find(btn => btn.getAttribute('onclick').includes(viewId));
+
+        if (activeBtn) {
+            activeBtn.classList.add('active');
+        }
+
+        if (viewId === 'dashboard') {
+            this.updateCharts();
+        }
+    },
+
+    renderForms() {
+
+        Object.values(appData).forEach(block => {
+
+            const container = document.getElementById(`content-${block.id}`);
+
+            if (!container) return;
+
+            let html = '';
+
+            block.questions.forEach(q => {
+
+                html += `
+
+                    <div class="bg-white p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow">
+
+                        <p class="text-gray-800 font-medium text-lg leading-snug mb-4">
+                            ${this.formatBold(q.text)}
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row gap-3 mt-3">
+
+                            <div class="flex-1">
+
+                                <input type="radio"
+                                       id="${q.id}_yes"
+                                       name="${q.id}"
+                                       value="yes"
+                                       class="hidden radio-custom"
+                                       onchange="app.handleInput('${q.id}', 'yes', '${block.id}')">
+
+                                <label for="${q.id}_yes"
+                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50 transition-colors font-medium">
+                                    Sim
+                                </label>
+
+                            </div>
+
+                            <div class="flex-1">
+
+                                <input type="radio"
+                                       id="${q.id}_partial"
+                                       name="${q.id}"
+                                       value="partial"
+                                       class="hidden radio-custom-partial"
+                                       onchange="app.handleInput('${q.id}', 'partial', '${block.id}')">
+
+                                <label for="${q.id}_partial"
+                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50 transition-colors font-medium">
+                                    Em partes
+                                </label>
+
+                            </div>
+
+                            <div class="flex-1">
+
+                                <input type="radio"
+                                       id="${q.id}_no"
+                                       name="${q.id}"
+                                       value="no"
+                                       class="hidden radio-custom-no"
+                                       onchange="app.handleInput('${q.id}', 'no', '${block.id}')">
+
+                                <label for="${q.id}_no"
+                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50 transition-colors font-medium">
+                                    Não
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <textarea
+                                class="w-full h-20 p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-sm resize-y"
+                                placeholder="Quais são as minhas dúvidas neste tópico para o mentor"
+                                onchange="app.saveNote('${q.id}', this.value)">
+                            </textarea>
+
+                        </div>
+
+                    </div>
+
+                `;
+            });
+
+            container.innerHTML = html;
+
+        });
+    },
+
+    formatBold(text) {
+        return text.replace(/\*\*(.*?)\*\*/g,
+            '<span class="font-bold text-teal-800">$1</span>');
+    },
+
+    handleInput(qId, value, blockId) {
+        state.answers[qId] = { value, blockId };
+        this.updateGlobalState();
+    },
+
+    saveNote(qId, val) {
+        state.notes[qId] = val;
+    },
+
+    updateGlobalState() {
+
+        const totalQuestions =
+            Object.values(appData)
+            .reduce((acc, block) => acc + block.questions.length, 0);
+
+        const answeredCount = Object.keys(state.answers).length;
+
+        const progressPct =
+            Math.round((answeredCount / totalQuestions) * 100);
+
+        document.getElementById('global-progress-bar').style.width =
+            `${progressPct}%`;
+
+        document.getElementById('global-progress-text').innerText =
+            `${progressPct}% Concluído (${answeredCount}/${totalQuestions})`;
+
+        this.updateCharts();
+    },
+
+    getChartData() {
+
+        let counts = {
+            yes: 0,
+            partial: 0,
+            no: 0,
+            unanswered: 0
+        };
+
+        let blockScores = {
+            bloco1: 0,
+            bloco2: 0,
+            bloco3: 0
+        };
+
+        let blockMax = {
+            bloco1: 0,
+            bloco2: 0,
+            bloco3: 0
+        };
+
+        const totalQuestions =
+            Object.values(appData)
+            .reduce((acc, block) => acc + block.questions.length, 0);
+
+        counts.unanswered = totalQuestions;
+
+        Object.values(appData).forEach(block => {
+
+            block.questions.forEach(q => {
+
+                blockMax[block.id] += 2;
+
+                if (state.answers[q.id]) {
+
+                    counts.unanswered--;
+
+                    const val = state.answers[q.id].value;
+
+                    counts[val]++;
+
+                    if (val === 'yes') {
+                        blockScores[block.id] += 2;
+                    }
+
+                    if (val === 'partial') {
+                        blockScores[block.id] += 1;
+                    }
+
+                }
+
+            });
+
+        });
+
+        const radarData = [
+
+            Math.round((blockScores.bloco1 / blockMax.bloco1) * 100),
+
+            Math.round((blockScores.bloco2 / blockMax.bloco2) * 100),
+
+            Math.round((blockScores.bloco3 / blockMax.bloco3) * 100)
+
+        ];
+
+        return { counts, radarData };
+
+    },
+
+    initCharts() {
+
+        const readinessCtx =
+            document.getElementById('readinessChart').getContext('2d');
+
+        chartInstances.readiness = new Chart(readinessCtx, {
+
+            type: 'doughnut',
+
+            data: {
+
+                labels: [
+                    'Adequado',
+                    'Em progresso',
+                    'Crítico',
+                    'Não avaliado'
+                ],
+
+                datasets: [{
+
+                    data: [0,0,0,100],
+
+                    backgroundColor: [
+                        '#0f766e',
+                        '#b45309',
+                        '#b91c1c',
+                        '#e2e8f0'
+                    ]
+
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+
+        });
+
+        const radarCtx =
+            document.getElementById('radarChart').getContext('2d');
+
+        chartInstances.radar = new Chart(radarCtx, {
+
+            type: 'radar',
+
+            data: {
+
+                labels: [
+                    'Transposição',
+                    'Estrutura',
+                    'Formatação'
+                ],
+
+                datasets: [{
+
+                    label: 'Desempenho Atual (%)',
+
+                    data: [0,0,0],
+
+                    backgroundColor: 'rgba(15,118,110,0.2)',
+
+                    borderColor: '#0f766e',
+
+                    pointBackgroundColor: '#0f766e'
+
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+
+        });
+
+    },
+
+    updateCharts() {
+
+        const data = this.getChartData();
+
+        chartInstances.readiness.data.datasets[0].data = [
+
+            data.counts.yes,
+            data.counts.partial,
+            data.counts.no,
+            data.counts.unanswered
+
+        ];
+
+        chartInstances.readiness.update();
+
+        chartInstances.radar.data.datasets[0].data =
+            data.radarData;
+
+        chartInstances.radar.update();
+
+    }
+
+};
+
+window.onload = () => {
+    app.init();
+};
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const printButton = document.getElementById("printButton");
+
+    if (printButton) {
+
+        printButton.addEventListener("click", function () {
+
+            window.print();
+
+        });
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+
+
+
+
