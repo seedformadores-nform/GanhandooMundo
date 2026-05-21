@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Painel Interativo - Autoavaliação Resumo Expandido GMP</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -62,8 +62,7 @@
 
         @media print {
             nav,
-            button,
-            canvas {
+            button {
                 display: none !important;
             }
 
@@ -112,7 +111,7 @@
 
     </div>
 
-    <nav class="max-w-6xl mx-auto px-4 mt-2 flex overflow-x-auto gap-2" id="nav-tabs">
+    <nav class="max-w-6xl mx-auto px-4 mt-2 flex overflow-x-auto gap-2">
 
         <button onclick="app.navigate('dashboard')"
                 class="tab-btn active px-4 py-3 text-sm font-medium text-gray-600 rounded-t-lg whitespace-nowrap">
@@ -155,7 +154,7 @@
             </p>
 
             <p class="text-gray-600 leading-relaxed">
-                Utilize as abas superiores para navegar pelos blocos de avaliação e analisar criticamente seu material antes da submissão ao mentor. Lembre-se de ao final, imprimir a sua autoavaliação e anexá-la junto ao seu Resumo Expandido na àrea de atividades. 
+                Utilize as abas superiores para navegar pelos blocos de avaliação e analisar criticamente seu material antes da submissão ao mentor. Lembre-se de ao final, imprimir a sua autoavaliação e anexá-la junto ao seu Resumo Expandido na área de atividades.
             </p>
 
         </div>
@@ -265,12 +264,11 @@
                 Após concluir sua análise crítica, clique abaixo para abrir a impressão do documento no seu computador.
             </p>
 
-           <button id="printButton"
-        type="button"
-        class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-colors">
-    🖨 Imprimir / Salvar em PDF
-</button>
-
+            <button id="printButton"
+                    type="button"
+                    class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-colors">
+                🖨 Imprimir / Salvar em PDF
+            </button>
 
         </div>
 
@@ -301,101 +299,82 @@ const appData = {
     bloco1: {
         id: 'bloco1',
         questions: [
-
             {
                 id: 'b1_q1',
                 text: '1. Fundamentação Teórica em Camadas: Além de repetir os conceitos do projeto inicial, expandi a fundamentação trazendo pelo menos **dois autores** que dialogam, concordam ou se complementam?'
             },
-
             {
                 id: 'b1_q2',
-                text: '2. Conexão Teoria-Prática (Fichamento ativo): Justifiquei no texto as minhas escolhas metodológicas com base no que estudei no exterior? (Ex: Conectei a teoria X ao motivo de adaptar a atividade Y).'
+                text: '2. Conexão Teoria-Prática (Fichamento ativo): Justifiquei no texto as minhas escolhas metodológicas com base no que estudei no exterior?'
             },
-
             {
                 id: 'b1_q3',
                 text: '3. Análise Crítica das Adaptações: Descrevi analiticamente o que precisou ser adaptado da realidade canadense para o contexto escolar paranaense?'
             },
-
             {
                 id: 'b1_q4',
                 text: '4. Vocabulário Científico: Utilizei conceitos e terminologias técnicas extraídas diretamente das formações e dos materiais de estudo recebidos no Canadá?'
             }
-
         ]
     },
 
     bloco2: {
         id: 'bloco2',
         questions: [
-
             {
                 id: 'b2_q1',
                 text: '1. Título do Trabalho: É claro, conciso, reflete diretamente a intervenção executada e possui no máximo 3 linhas?'
             },
-
             {
                 id: 'b2_q2',
-                text: '2. Resumo (Abstract): Contém contextualização curta do tema, objetivo, método de pesquisa e principais resultados alcançados de forma resumida em parágrafo único (máx. 200 palavras)?'
+                text: '2. Resumo (Abstract): Contém contextualização curta do tema, objetivo, método de pesquisa e principais resultados alcançados?'
             },
-
             {
                 id: 'b2_q3',
-                text: '3. Palavras-chave: Indiquei entre 3 e 5 termos representativos do trabalho, separados por ponto e com a primeira letra maiúscula?'
+                text: '3. Palavras-chave: Indiquei entre 3 e 5 termos representativos do trabalho?'
             },
-
             {
                 id: 'b2_q4',
-                text: '4. Alinhamento da Introdução: Apresentei de forma clara o tema, a situação-problema da escola e os objetivos (geral e específicos) da minha intervenção?'
+                text: '4. Alinhamento da Introdução: Apresentei de forma clara o tema e os objetivos?'
             },
-
             {
                 id: 'b2_q5',
-                text: '5. Metodologia Científica: Expliquei como e em quanto tempo a ação ocorreu, descrevendo as etapas de diagnóstico, a aplicação das soluções e os instrumentos usados?'
+                text: '5. Metodologia Científica: Expliquei como e em quanto tempo a ação ocorreu?'
             },
-
             {
                 id: 'b2_q6',
-                text: '6. Resultados e Discussão: Apresentei os dados e as evidências da aprendizagem do público-alvo focando na discussão do impacto das ações?'
+                text: '6. Resultados e Discussão: Apresentei dados e evidências da aprendizagem?'
             },
-
             {
                 id: 'b2_q7',
-                text: '7. Considerações Finais e Fechamento: Minhas considerações finais respondem diretamente aos objetivos propostos e apresentam desdobramentos futuros?'
+                text: '7. Considerações Finais: Respondem aos objetivos propostos?'
             }
-
         ]
     },
 
     bloco3: {
         id: 'bloco3',
         questions: [
-
             {
                 id: 'b3_q1',
-                text: '1. Limites de Páginas: Meu documento em formato .doc possui entre 4 e 6 páginas no total?'
+                text: '1. Limites de Páginas: Meu documento possui entre 4 e 6 páginas?'
             },
-
             {
                 id: 'b3_q2',
-                text: '2. Padrão de Formatação: O texto inteiro está formatado em fonte Arial, tamanho 12, espaçamento entre linhas 1,15 e justificado?'
+                text: '2. Padrão de Formatação: O texto inteiro está formatado corretamente?'
             },
-
             {
                 id: 'b3_q3',
-                text: '3. Citações Curtas e Longas: Apliquei as regras de citação do template (ex: curtas entre aspas incorporadas ao texto com Autor, Ano, pág.)?'
+                text: '3. Citações Curtas e Longas: Apliquei corretamente as regras de citação?'
             },
-
             {
                 id: 'b3_q4',
-                text: '4. Referências Bibliográficas: Todas as fontes citadas no texto constam nas Referências Finais conforme ABNT NBR 6023/2002?'
+                text: '4. Referências Bibliográficas: Todas as fontes constam conforme ABNT?'
             },
-
             {
                 id: 'b3_q5',
-                text: '5. Amostragem por Evidência: Se inseri tabelas/imagens, certifiquei-me que não são ilustrativas, possuem título/fonte e são analisadas no texto?'
+                text: '5. Evidências: As tabelas/imagens possuem título, fonte e análise?'
             }
-
         ]
     }
 
@@ -462,7 +441,6 @@ const app = {
             block.questions.forEach(q => {
 
                 html += `
-
                     <div class="bg-white p-5 border border-gray-200 rounded-xl hover:shadow-md transition-shadow">
 
                         <p class="text-gray-800 font-medium text-lg leading-snug mb-4">
@@ -472,7 +450,6 @@ const app = {
                         <div class="flex flex-col sm:flex-row gap-3 mt-3">
 
                             <div class="flex-1">
-
                                 <input type="radio"
                                        id="${q.id}_yes"
                                        name="${q.id}"
@@ -481,14 +458,12 @@ const app = {
                                        onchange="app.handleInput('${q.id}', 'yes', '${block.id}')">
 
                                 <label for="${q.id}_yes"
-                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50 transition-colors font-medium">
+                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer">
                                     Sim
                                 </label>
-
                             </div>
 
                             <div class="flex-1">
-
                                 <input type="radio"
                                        id="${q.id}_partial"
                                        name="${q.id}"
@@ -497,14 +472,12 @@ const app = {
                                        onchange="app.handleInput('${q.id}', 'partial', '${block.id}')">
 
                                 <label for="${q.id}_partial"
-                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50 transition-colors font-medium">
+                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer">
                                     Em partes
                                 </label>
-
                             </div>
 
                             <div class="flex-1">
-
                                 <input type="radio"
                                        id="${q.id}_no"
                                        name="${q.id}"
@@ -513,31 +486,26 @@ const app = {
                                        onchange="app.handleInput('${q.id}', 'no', '${block.id}')">
 
                                 <label for="${q.id}_no"
-                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50 transition-colors font-medium">
+                                       class="block text-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer">
                                     Não
                                 </label>
-
                             </div>
 
                         </div>
 
                         <div class="mt-4">
-
                             <textarea
                                 class="w-full h-20 p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none text-sm resize-y"
-                                placeholder="Quais são as minhas dúvidas neste tópico para o mentor"
+                                placeholder="Quais são as minhas dúvidas neste tópico para o mentor?"
                                 onchange="app.saveNote('${q.id}', this.value)">
                             </textarea>
-
                         </div>
 
                     </div>
-
                 `;
             });
 
             container.innerHTML = html;
-
         });
     },
 
@@ -630,109 +598,91 @@ const app = {
 
         });
 
-        const radarData = [
-
-            Math.round((blockScores.bloco1 / blockMax.bloco1) * 100),
-
-            Math.round((blockScores.bloco2 / blockMax.bloco2) * 100),
-
-            Math.round((blockScores.bloco3 / blockMax.bloco3) * 100)
-
-        ];
-
-        return { counts, radarData };
-
+        return {
+            counts,
+            radarData: [
+                Math.round((blockScores.bloco1 / blockMax.bloco1) * 100),
+                Math.round((blockScores.bloco2 / blockMax.bloco2) * 100),
+                Math.round((blockScores.bloco3 / blockMax.bloco3) * 100)
+            ]
+        };
     },
 
     initCharts() {
 
-        const readinessCtx =
-            document.getElementById('readinessChart').getContext('2d');
+        const readinessCanvas =
+            document.getElementById('readinessChart');
 
-        chartInstances.readiness = new Chart(readinessCtx, {
+        const radarCanvas =
+            document.getElementById('radarChart');
 
-            type: 'doughnut',
+        if (!readinessCanvas || !radarCanvas) return;
 
-            data: {
-
-                labels: [
-                    'Adequado',
-                    'Em progresso',
-                    'Crítico',
-                    'Não avaliado'
-                ],
-
-                datasets: [{
-
-                    data: [0,0,0,100],
-
-                    backgroundColor: [
-                        '#0f766e',
-                        '#b45309',
-                        '#b91c1c',
-                        '#e2e8f0'
-                    ]
-
-                }]
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
+        chartInstances.readiness = new Chart(
+            readinessCanvas.getContext('2d'),
+            {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Adequado',
+                        'Em progresso',
+                        'Crítico',
+                        'Não avaliado'
+                    ],
+                    datasets: [{
+                        data: [0,0,0,100],
+                        backgroundColor: [
+                            '#0f766e',
+                            '#b45309',
+                            '#b91c1c',
+                            '#e2e8f0'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
             }
+        );
 
-        });
-
-        const radarCtx =
-            document.getElementById('radarChart').getContext('2d');
-
-        chartInstances.radar = new Chart(radarCtx, {
-
-            type: 'radar',
-
-            data: {
-
-                labels: [
-                    'Transposição',
-                    'Estrutura',
-                    'Formatação'
-                ],
-
-                datasets: [{
-
-                    label: 'Desempenho Atual (%)',
-
-                    data: [0,0,0],
-
-                    backgroundColor: 'rgba(15,118,110,0.2)',
-
-                    borderColor: '#0f766e',
-
-                    pointBackgroundColor: '#0f766e'
-
-                }]
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
+        chartInstances.radar = new Chart(
+            radarCanvas.getContext('2d'),
+            {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Transposição',
+                        'Estrutura',
+                        'Formatação'
+                    ],
+                    datasets: [{
+                        label: 'Desempenho Atual (%)',
+                        data: [0,0,0],
+                        backgroundColor: 'rgba(15,118,110,0.2)',
+                        borderColor: '#0f766e',
+                        pointBackgroundColor: '#0f766e'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
             }
-
-        });
-
+        );
     },
 
     updateCharts() {
 
+        if (!chartInstances.readiness || !chartInstances.radar) return;
+
         const data = this.getChartData();
 
         chartInstances.readiness.data.datasets[0].data = [
-
             data.counts.yes,
             data.counts.partial,
             data.counts.no,
             data.counts.unanswered
-
         ];
 
         chartInstances.readiness.update();
@@ -741,27 +691,21 @@ const app = {
             data.radarData;
 
         chartInstances.radar.update();
-
     }
 
 };
 
-window.onload = () => {
+document.addEventListener("DOMContentLoaded", () => {
+
     app.init();
-};
 
-<script>
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const printButton = document.getElementById("printButton");
+    const printButton =
+        document.getElementById("printButton");
 
     if (printButton) {
 
-        printButton.addEventListener("click", function () {
-
+        printButton.addEventListener("click", () => {
             window.print();
-
         });
 
     }
@@ -772,7 +716,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
-
-
-
-
