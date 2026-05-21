@@ -209,7 +209,6 @@
                 Utilize as abas superiores para navegar pelos blocos de avaliação e analisar criticamente o seu material antes de submetê-lo ao mentor. Considere relatar as suas questões e dificuldades após cada tópico para receber uma devolutiva mais precisa do seu mentor. Após concluir a análise, certifique-se de imprimir esta autoavaliação e anexá-la ao seu Resumo Expandido diretamente na área de atividades do Google Classroom.
             </p>
 
-
             <p class="text-gray-600 leading-relaxed mt-4">
               <strong>Esta autoavaliação deverá ser entregue junto ao Resumo Expandido em 17 de agosto de 2026.</strong>
             </p>
@@ -264,7 +263,7 @@
             </h2>
 
             <p class="text-gray-600">
-                Nesta seção, avalie se o seu texto superou o tom meramente descritivo (o relato cronológico de fatos) e alcançou profundidade teórica (a justificativa científica das ações).
+                Nesta seção, avalie se o seu text superou o tom meramente descritivo (o relato cronológico de fatos) e alcançou profundidade teórica (a justificativa científica das ações).
             </p>
 
         </div>
@@ -400,7 +399,7 @@ const appData = {
             },
             {
                 id: 'b2_q6',
-                text: '6. **Resultados e Discussão:** Apresentei discussão sobre os processos avaliativos formativos da mediação, indicando as adaptações e ajustes realizados durante o  desenvolvimento da intervenção e seus impactos visíveis, como dados e evidências da aprendizagem?'
+                text: '6. **Resultados e Discussão:** Apresentei discussão sobre os processos avaliativos formativos da mediação, indicando as adaptações e ajustes realizados durante o desenvolvimento da intervenção e seus impactos visíveis, como dados e evidências da aprendizagem?'
             },
             {
                 id: 'b2_q7',
@@ -568,8 +567,9 @@ const app = {
     },
 
     formatBold(text) {
+        // Altera as palavras envolvidas por asteriscos para usar preto (text-gray-900) em vez de verde/teal
         return text.replace(/\*\*(.*?)\*\*/g,
-            '<span class="font-bold text-teal-800">$1</span>');
+            '<span class="font-bold text-gray-900">$1</span>');
     },
 
     handleInput(qId, value, blockId) {
